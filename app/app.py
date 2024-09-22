@@ -47,9 +47,9 @@ def make_lambda_url_event():
     return event
 
 
-@app.route("/api/auth/<string:endpoint>", methods=['GET', 'POST', 'OPTIONS'])
-@app.route("/api/auth/<string:endpoint>/<string:pk>", methods=['GET', 'PUT', 'DELETE', 'OPTIONS'])
-@app.route("/api/auth/<string:endpoint>/<string:pk>/<string:sk>", methods=['GET', 'PUT', 'DELETE', 'OPTIONS'])
+@app.route("/<string:endpoint>", methods=['GET', 'POST', 'OPTIONS'])
+@app.route("/<string:endpoint>/<string:pk>", methods=['GET', 'PUT', 'DELETE', 'OPTIONS'])
+@app.route("/<string:endpoint>/<string:pk>/<string:sk>", methods=['GET', 'PUT', 'DELETE', 'OPTIONS'])
 def handle_request(*args, **kwargs):
     response = lambda_handler(make_lambda_url_event())
     

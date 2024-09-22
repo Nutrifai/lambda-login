@@ -9,7 +9,7 @@ resource "null_resource" "pip_install" {
   }
 
   provisioner "local-exec" {
-    command = "python3 -m pip install -r ${local.requirements_path} --platform manylinux2014_x86_64 -t ${path.module}/layer/python --only-binary=:all:"
+    command = "pip3 install -r ${local.requirements_path} --platform manylinux2014_x86_64 --python-version 3.11 -t ${path.module}/layer/python --only-binary=:all:"
   }
 }
 

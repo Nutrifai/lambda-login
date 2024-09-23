@@ -59,12 +59,6 @@ To use this project, ensure you have the following installed:
 
 Ensure that your AWS credentials are configured correctly using `aws configure`
 
-### API Gateway Module (`modules/api_gateway/`)
-This module creates a REST API in API Gateway.
-
-### Lambda Session Authorizer Module (`modules/lambda_authorizer/`)
-This module creates a Lambda function to handle user session authorization.
-
 ## Instructions to Deploy Locally
 
 ### 1. Clone the repository

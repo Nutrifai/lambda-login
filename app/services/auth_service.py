@@ -80,6 +80,8 @@ class AuthService:
         return self.__success_response(user_info)
     
     def logout(self, cookies: dict):
+        print('cookies')
+        print(cookies)
         session_id = cookies.get(COOKIE_NAME)
 
         if not session_id:

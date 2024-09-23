@@ -1,5 +1,5 @@
 import json
-from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, CORSConfig
+from aws_lambda_powertools.event_handler import APIGatewayRestResolver, CORSConfig
 from aws_lambda_powertools.event_handler.api_gateway import Router
 from services.auth_service import AuthService
 from utils.parse_cookies import parse_cookies
@@ -39,7 +39,7 @@ def logout():
     return __auth_service.logout(cookies_dict)
     
 
-resolver = APIGatewayHttpResolver(cors=cors_config)
+resolver = APIGatewayRestResolver(cors=cors_config)
 resolver.include_router(router=router, prefix="")
 
 def lambda_handler(event, context = None):
@@ -48,4 +48,9 @@ def lambda_handler(event, context = None):
     if "body" in event and type(event["body"]) is str:
         event["body"] = json.loads(event["body"])
 
-    return resolver.resolve(event, context)
+    response = resolver.resolve(event, context)
+
+    if "body" in response and type(response["body"]) is not str:
+        response["body"] = json.dumps(response["body"], ensure_ascii=False)
+
+    return response

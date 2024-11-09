@@ -18,7 +18,6 @@ This repository contains the infrastructure for deploying a Lambda function that
 ```json
 {
   "userId": "user",
-  "email": "user@gmail.com",
   "password": "12345678"
 }
 ```

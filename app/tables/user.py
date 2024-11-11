@@ -11,6 +11,7 @@ class User(BaseModel):
     userId: str
     password: str
     email: str
+    isNutri: bool = False
 
 class UserTable(BaseModel):
     """

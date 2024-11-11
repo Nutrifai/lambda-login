@@ -1,7 +1,7 @@
+import jwt
 from env.ddb_client import get_ddb_client
 from tables.user import UserTable, User
 from boto3.dynamodb.conditions import Key
-import bcrypt
 
 class UserNotFound(Exception):
     """
@@ -26,6 +26,8 @@ class UserRepository:
     """
     Repository class for managing users in DynamoDB.
     """
+
+    SECRET_KEY = "teste"
 
     def __init__(self) -> None:
         """
@@ -72,18 +74,17 @@ class UserRepository:
         except UserNotFound:
             return False
     
-    def encrypt_password(self, password: str) -> bytes:
+    def encrypt_password(self, password: str) -> str:
         """
-        Encrypt a password using bcrypt.
+        Encrypt a password using JWT.
 
         Args:
             password (str): The password to encrypt.
 
         Returns:
-            bytes: The encrypted password.
+            str: The encrypted password.
         """
-        salt = bcrypt.gensalt()
-        return bcrypt.hashpw(password.encode("utf-8"), salt)
+        return jwt.encode({"password": password}, self.SECRET_KEY, algorithm="HS256")
 
     def create_user(self, body: dict) -> User:
         """
@@ -103,7 +104,7 @@ class UserRepository:
         if self.check_if_user_exists(user.userId):
             raise UserAlreadyExists()
 
-        user.password = self.encrypt_password(user.password).decode('utf-8')
+        user.password = self.encrypt_password(user.password)
 
         self.ddb_table.put_item(Item=user.model_dump())
 
@@ -125,10 +126,12 @@ class UserRepository:
         """
         user_info = User(**self.retrieve_user(user_id))
 
-        user_db_password = user_info.password.encode("utf-8")
-        input_password = input_password.encode("utf-8")
+        try:
+            decoded_password = jwt.decode(user_info.password, self.SECRET_KEY, algorithms=["HS256"])["password"]
+        except jwt.InvalidTokenError:
+            raise IncorrectPassword()
 
-        if not bcrypt.checkpw(input_password, user_db_password):
+        if input_password != decoded_password:
             raise IncorrectPassword()
 
         return user_info

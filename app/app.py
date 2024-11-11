@@ -25,33 +25,12 @@ def make_api_gateway_event():
 
     return event
 
-def make_lambda_url_event():
-    event = {
-        'rawPath': request.path,
-        'rawQueryString': '',
-        "headers": dict(request.headers),
-        "requestContext": {
-            'http': {
-                'method': request.method,
-                'path': request.path,
-            },
-            'stage': '$default',
-        }
-    }
-
-    try:
-        event["body"] = request.get_json()
-    except:
-        pass
-
-    return event
-
 
 @app.route("/<string:endpoint>", methods=['GET', 'POST', 'OPTIONS'])
 @app.route("/<string:endpoint>/<string:pk>", methods=['GET', 'PUT', 'DELETE', 'OPTIONS'])
 @app.route("/<string:endpoint>/<string:pk>/<string:sk>", methods=['GET', 'PUT', 'DELETE', 'OPTIONS'])
 def handle_request(*args, **kwargs):
-    response = lambda_handler(make_lambda_url_event())
+    response = lambda_handler(make_api_gateway_event())
     
     INSOMNIA_REQUEST = False
 

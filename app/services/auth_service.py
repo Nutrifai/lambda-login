@@ -69,7 +69,7 @@ class AuthService:
             error_response = Response(
                 status_code=400,
                 body={
-                    "error_message": "Confira os campos e tente novamente!"
+                    "error_message": "Verifique as informações preenchidas e tente novamente."
                 }
             )
             raise err
@@ -78,7 +78,7 @@ class AuthService:
             return Response(
                 status_code=400,
                 body={
-                    "error_message": "Já existe um usuário com esse ID Usuário!"
+                    "error_message": "Esse nome de usuário já está em uso. Por favor, escolha outro."
                 }
             )
 
@@ -136,7 +136,7 @@ class AuthService:
             return Response(
             status_code=400,
             body={
-                "error_message": "Usuário não está logado"
+                "error_message": "Usuário não está logado."
             },
         )
 

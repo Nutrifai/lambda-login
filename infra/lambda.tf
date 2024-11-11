@@ -10,7 +10,7 @@ resource "aws_lambda_function" "lambda" {
 
   environment {
     variables = {
-      "ENV" = "dev"
+      "ENV" = "dev",
     }
   }
 }

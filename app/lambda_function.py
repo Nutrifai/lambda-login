@@ -1,11 +1,11 @@
 import json
-from aws_lambda_powertools.event_handler import APIGatewayRestResolver, CORSConfig
+from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, CORSConfig
 from aws_lambda_powertools.event_handler.api_gateway import Router
 from services.auth_service import AuthService
 from utils.parse_cookies import parse_cookies
 
 """
-Configure Cross-Origin Resource Sharing (CORS) settings for the `APIGatewayRestResolver`. 
+Configure Cross-Origin Resource Sharing (CORS) settings for the `APIGatewayHttpResolver`. 
 
 - `allow_credentials=True`: Allows cookies and HTTP authentication information to be included in requests.
 - `expose_headers=["Set-Cookie"]`: Specifies which headers can be exposed as part of the response.
@@ -84,8 +84,8 @@ def logout():
     return __auth_service.logout(cookies_dict)
     
 
-# APIGatewayRestResolver` is a class from the `aws_lambda_powertools` library, designed to simplify the handling of AWS API Gateway events in AWS Lambda functions
-resolver = APIGatewayRestResolver(cors=cors_config)
+# APIGatewayHttpResolver` is a class from the `aws_lambda_powertools` library, designed to simplify the handling of AWS API Gateway events in AWS Lambda functions
+resolver = APIGatewayHttpResolver(cors=cors_config)
 resolver.include_router(router=router, prefix="")
 
 def lambda_handler(event, context = None):
@@ -106,7 +106,7 @@ def lambda_handler(event, context = None):
 
     response = resolver.resolve(event, context)
 
-    if "body" in response and type(response["body"]) is not str:
-        response["body"] = json.dumps(response["body"], ensure_ascii=False)
+    # if "body" in response and type(response["body"]) is not str:
+    #     response["body"] = json.dumps(response["body"], ensure_ascii=False)
 
     return response

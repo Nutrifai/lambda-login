@@ -106,7 +106,7 @@ def lambda_handler(event, context = None):
 
     response = resolver.resolve(event, context)
 
-    # if "body" in response and type(response["body"]) is not str:
-    #     response["body"] = json.dumps(response["body"], ensure_ascii=False)
+    if "body" in response and type(response["body"]) is not str:
+        response["body"] = json.dumps(response["body"], ensure_ascii=False)
 
     return response

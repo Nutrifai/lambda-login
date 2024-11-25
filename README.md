@@ -7,49 +7,6 @@ This repository contains the infrastructure for deploying a Lambda function that
 - **User Registration**: New users can create an account by providing basic information and choosing a secure password.
 - **User Logout**: Users can end their session, invalidating their authentication token.
 
-## API Endpoints
-
-### **1. Login**
-
-**Endpoint:** `/login`  
-**Method:** `POST`
-
-**Request Body:**
-```json
-{
-  "userId": "user",
-  "password": "12345678"
-}
-```
-
----
-
-### **2. Logout**
-
-**Endpoint:** `/logout`  
-**Method:** `POST`
-
-**Request Header:**
-```
-Cookie:sessionId=1b9ba95110f586136b4a77592a9e9e40
-```
-
----
-
-### **3. Register**
-
-**Endpoint:** `/register`  
-**Method:** `POST`
-
-**Request Body:**
-```json
-{
-  "userId": "user",
-  "email": "user@gmail",
-  "password": "123456789"
-}
-```
-
 ## Requirements
 
 To use this project, ensure you have the following installed:

@@ -120,7 +120,7 @@ class AuthService:
     
     def logout(self, cookies: dict):
         """
-        Log out a user.
+        Logout a user.
 
         Args:
             cookies (dict): The cookies from the request.
